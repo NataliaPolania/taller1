@@ -161,7 +161,7 @@ public:
     puts("---------------------------");
     puts("\nReading from keyboard");
     puts("Use arrow keys to move the turtle.");
-    puts("'Q' to quit.");
+    puts("'Q' to save and quit.");
 
     while (running)
     {
@@ -268,7 +268,7 @@ int main(int argc, char **argv)
 
   teleop_turtle.keyLoop(linear, angular);
 
-  rclcpp::Service<turtle_bot_5::srv::SavePath>::SharedPtr service =
+  rclcpp::Service<turtle_bot_5::srv::SavePath>::SharedPtr save_path_srv =
     node->create_service<turtle_bot_5::srv::SavePath>("save_path", &sendPath);
 
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Finished");
