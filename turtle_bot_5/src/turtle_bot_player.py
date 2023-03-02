@@ -11,7 +11,9 @@ import time
 data_loaded = False
 
 class MinimalService(Node):
+    
     def __init__(self):
+        
         super().__init__('turtle_bot_player')
         self._do_path_srv = self.create_service(DoPath, 'do_path', self.do_path)
         self.publisher_ = self.create_publisher(Twist, 'turtlebot_cmdVel', 1) 
@@ -21,6 +23,7 @@ class MinimalService(Node):
         self.i = 0
 
     def load_data(self, archivo):
+        # Funcion encargada de abrir el archivo y obtener el vector de los movimientos y las velocidades lineal y angular
         global data_loaded
 
         f = open(archivo, "r")
@@ -31,12 +34,16 @@ class MinimalService(Node):
         data_loaded = True
     
     def do_path(self, request, response):
+        # Función encargada por obtener la ruta del archivo .txt con los movimientos del robot
+        
         print("Ruta:" + request.name)
         archivo = request.name
         self.load_data(archivo)
         return response
 
     def timer_callback(self):
+        # Función encargada de crear el mensaje Twist y publicarlo en el tópico turtlebot_cmdVel
+        
         global data_loaded
         print("searching data")
         while(data_loaded):
@@ -72,6 +79,7 @@ class MinimalService(Node):
 
 def main(args=None):
     rclpy.init(args=args)
+    # Proceso principal encargado de ejecutar todo el proceso del player
     minimal_service = MinimalService()
     rclpy.spin(minimal_service)
     rclpy.shutdown()
